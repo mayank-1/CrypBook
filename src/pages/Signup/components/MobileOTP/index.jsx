@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PhoneComponent from "../../../../components/PhoneComponent";
 import Spinner from "../../../../components/Spinner";
 
 // LIBS
@@ -10,8 +11,8 @@ const MobileOTP = () => {
   const [loadingOTP, setLoadingOTP] = useState(false);
   const [otpReceived, setOTPReceived] = useState(false);
 
-  const handleMobileChange = (e) => {
-    setMobile(e.target.value);
+  const handleMobileChange = (value) => {
+    setMobile(`+${value}`);
   };
   const handleOTPChange = (e) => {
     setOtp(e.target.value);
@@ -19,10 +20,6 @@ const MobileOTP = () => {
   const disableSendOTPButton = mobile === null;
 
   const handleSendOTP = () => {
-    if (mobile.length < 10) {
-      showWarningToast("Mobile Number should be of 10 digit");
-      return null;
-    }
     setLoadingOTP(true);
     console.log(
       "**CALL THE FIREBASE API WITH MOBILE NUMBER TO GET OTP VERIFIED: ",
@@ -37,14 +34,15 @@ const MobileOTP = () => {
     <>
       <div className="title">Enter Your Mobile Number</div>
       <div className="input">
-        <input
+        {/* <input
           className="inputField"
           type="number"
           placeholder="Mobile Number"
           onChange={handleMobileChange}
           onWheel={(e) => e.target.blur()}
           disable={loadingOTP || otpReceived}
-        />
+        /> */}
+        <PhoneComponent getPhoneValue={handleMobileChange} />
       </div>
       {otpReceived && (
         <>
